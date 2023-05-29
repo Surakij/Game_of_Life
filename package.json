@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/Surakij/Game_of_Life/issues"
   },
-  "homepage": "https://github.com/Surakij/Game_of_Life#readme"
+  "homepage": "https://github.com/Surakij/Game_of_Life#readme",
+  "dependencies": {
+    "lodash": "^4.17.21"
+  }
 }
