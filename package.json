@@ -8,8 +8,8 @@
     "lint": "eslint .",
     "lint:fix": "prettier --write . && eslint . --fix",
     "prepare": "husky install",
-    "dev": "webpack --mode development",
-    "build":"webpack --mode production"
+    "dev": "webpack serve --mode development",
+    "build": "webpack --mode production"
   },
   "repository": {
     "type": "git",
@@ -43,7 +43,8 @@
     "lint-staged": "^13.2.2",
     "prettier": "2.8.8",
     "webpack": "^5.84.1",
-    "webpack-cli": "^5.1.1"
+    "webpack-cli": "^5.1.1",
+    "webpack-dev-server": "^4.15.0"
   },
   "lint-staged": {
     "*.js": "eslint --fix",

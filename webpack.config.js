@@ -26,4 +26,9 @@ module.exports = {
     ],
   },
   plugins: [new HtmlWebpackPlugin({ template: "index.html" })],
+  devServer: {
+    compress: true,
+    port: 9000,
+    watchFiles: ["*.html"],
+  },
 };
