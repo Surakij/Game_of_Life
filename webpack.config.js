@@ -1,7 +1,7 @@
 const { resolve } = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
-module.exports = {
+module.exports = (env) => ({
   entry: "./src/index.js",
   output: {
     path: resolve(__dirname, "dist"),
@@ -11,6 +11,8 @@ module.exports = {
       arrowFunction: false,
     },
   },
+  devtool: env.production ? "source-map" : "eval-source-map",
+  mode: env.production ? "production" : "development",
   module: {
     rules: [
       {
@@ -31,4 +33,4 @@ module.exports = {
     port: 9000,
     watchFiles: ["*.html"],
   },
-};
+});
