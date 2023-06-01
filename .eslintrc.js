@@ -1,3 +1,5 @@
+const { off } = require("process");
+
 module.exports = {
   env: {
     browser: true,
@@ -13,5 +15,11 @@ module.exports = {
   rules: {
     "import/prefer-default-export": "off",
     "max-len": ["error", { ignoreComments: true }],
+    "func-names": ["error", "never"],
+    "no-unused-expressions": "off",
+    "no-unused-vars": [
+      "error",
+      { args: "none", ignoreRestSiblings: true, varsIgnorePattern: "^off$" },
+    ],
   },
 };

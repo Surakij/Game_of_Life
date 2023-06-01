@@ -1,5 +1,7 @@
 const { resolve } = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 
 module.exports = (env) => ({
   entry: "./src/index.js",
@@ -27,11 +29,17 @@ module.exports = (env) => ({
       },
       {
         test: /\.css$/i,
-        use: ["style-loader", "css-loader"],
+        use: [MiniCssExtractPlugin.loader, "css-loader"],
       },
     ],
   },
-  plugins: [new HtmlWebpackPlugin({ template: "index.html" })],
+  plugins: [
+    new HtmlWebpackPlugin({ template: "index.html" }),
+    new MiniCssExtractPlugin(),
+  ],
+  optimization: {
+    minimizer: [`...`, new CssMinimizerPlugin()],
+  },
   devServer: {
     compress: true,
     port: 9000,
