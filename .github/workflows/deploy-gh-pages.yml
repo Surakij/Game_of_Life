@@ -14,8 +14,8 @@ jobs:
     steps:
       - name: Initialize Git
         run: |
-          git config --global user.email "you@example.com"
-          git config --global user.name "Your Name"
+          git config --global user.email "surakij6@gmail.xom"
+          git config --global user.name "Sergey Kazhaev"
           git init
 
       - name: Checkout
