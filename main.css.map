@@ -1,0 +1,1 @@
+{"version":3,"file":"main.css","mappings":"AAAA,GACE,eACF","sources":["webpack://game_of_life/./src/css/style.css"],"sourcesContent":["h1 {\n  font-size: 100px;\n}\n"],"names":[],"sourceRoot":""}
