@@ -15,7 +15,7 @@ module.exports = (env) => ({
     },
   },
   resolve: {
-    extensions: [".js", ".ts"],
+    extensions: [".ts", ".js"],
   },
   devtool: env.production ? "source-map" : "eval-source-map",
   mode: env.production ? "production" : "development",
