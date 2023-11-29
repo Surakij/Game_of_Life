@@ -5,10 +5,12 @@ import { GameBoard } from "./GameBoard";
 
 const gameContainer = document.getElementById("app")!;
 
+const height: number = 50;
+const width: number = 50;
+const gameSpeed: number = 1000;
 
-
-const board = new GameBoard(50, 50);
-const game = new GameOfLife(board);
+const board = new GameBoard(height, width);
+const game = new GameOfLife(board, gameSpeed);
 const renderer = new GameRenderer(gameContainer, board, game);
 
 renderer.setGameBoard(board);

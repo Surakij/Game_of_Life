@@ -4,6 +4,7 @@ import { IGame } from "./GameOfLife";
 export interface IGameRenderer {
   draw(): void;
   setGameBoard(gameBoard: IGameBoard): void;
+  getSpeed(): number;
 }
 
 export class GameRenderer implements IGameRenderer {
@@ -12,10 +13,11 @@ export class GameRenderer implements IGameRenderer {
   private canvas: HTMLCanvasElement;
   private context: CanvasRenderingContext2D;
   private cellSize = 10;
-  private gameBoard!: IGameBoard;
+  private gameBoard: IGameBoard;
   private gameOfLife: IGame;
-  private width!: number;
-  private height!: number;
+  private width: number;
+  private height: number;
+  private speed: number;
 
   constructor(
     container: HTMLElement,
@@ -36,15 +38,18 @@ export class GameRenderer implements IGameRenderer {
     this.gameOfLife = gameOfLife;
     this.width = this.gameBoard.getWidth();
     this.height = this.gameBoard.getHeight();
+    this.speed = this.gameOfLife.getSpeed();
 
     const divMenu = document.createElement("div");
 
     const inputHeight = document.createElement("input");
     const inputWidth = document.createElement("input");
+    const inputSpeedGame = document.createElement("input");
     const spanHeight = document.createElement("span");
     const spanWidth = document.createElement("span");
     const lableWidth = document.createElement("lable");
     const lableHeight = document.createElement("lable");
+    const lableSpeed = document.createElement("lable");
     const stopButton = document.createElement("button");
     const startButton = document.createElement("button");
     const clearButton = document.createElement("button");
@@ -57,6 +62,9 @@ export class GameRenderer implements IGameRenderer {
     divMenu.appendChild(lableWidth);
     divMenu.appendChild(inputWidth);
     divMenu.appendChild(spanWidth);
+    divMenu.appendChild(lableSpeed);
+    divMenu.appendChild(inputSpeedGame);
+
     divMenu.appendChild(stopButton);
     divMenu.appendChild(startButton);
     divMenu.appendChild(clearButton);
@@ -99,6 +107,16 @@ export class GameRenderer implements IGameRenderer {
     lableHeight.setAttribute("for", "height-input");
     lableHeight.textContent = "height: ";
 
+    inputSpeedGame.classList.add("speed-range");
+    inputSpeedGame.type = "number";
+    inputSpeedGame.min = "0.1";
+    inputSpeedGame.max = "20";
+    inputSpeedGame.step = "0.1";
+    inputSpeedGame.value = "1";
+    inputSpeedGame.id = "speed-input";
+    lableSpeed.setAttribute("for", "speed-input");
+    lableSpeed.textContent = "game speed : ";
+
     inputHeight.addEventListener("input", () => {
       spanHeight.textContent = inputHeight.value;
       this.height = +inputHeight.value;
@@ -111,6 +129,10 @@ export class GameRenderer implements IGameRenderer {
       this.width = +inputWidth.value;
       this.gameBoard.setGameBoard(this.height, this.width);
       this.draw();
+    });
+
+    inputSpeedGame.addEventListener("input", () => {
+      this.speed = 1000 * (+inputSpeedGame.value);
     });
 
     startButton.addEventListener("click", () => {
@@ -166,5 +188,9 @@ export class GameRenderer implements IGameRenderer {
     this.width = this.gameBoard.getWidth();
     this.height = this.gameBoard.getHeight();
     this.draw();
+  }
+
+  public getSpeed() {
+    return this.speed;
   }
 }
