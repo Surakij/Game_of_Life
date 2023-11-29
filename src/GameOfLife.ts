@@ -10,6 +10,8 @@ export interface IGame {
   toggleCell(x: number, y: number): void;
   stopGame(): void;
   startGame(): void;
+  clearGameField(): void;
+  areAnyCellAlive(grid: Cell[][]): boolean;
 }
 
 export class GameOfLife implements IGame {
@@ -20,6 +22,7 @@ export class GameOfLife implements IGame {
   private gameIntervalId: NodeJS.Timeout | null = null;
   private renderer: GameRenderer | null;
   private gameBoard: GameBoard;
+  private hasChanges: boolean = true;
 
   constructor(gameBoard: GameBoard) {
     this.renderer = null;
@@ -55,17 +58,19 @@ export class GameOfLife implements IGame {
     const newGird: Cell[][] = Array.from({ length: this.height }, () =>
       Array.from({ length: this.width }, () => new Cell(0, 0, false))
     );
-    console.log("newGrid at GameOfLife: ", newGird);
+
+     this.hasChanges = false;
+
     for (let i = 0; i < this.height; i++) {
       for (let j = 0; j < this.width; j++) {
         const cell: Cell = this.grid[i][j];
         const neighbors = this.countAliveNeighbors(i, j);
-        console.log("cell: ", cell, "neighbors: ", neighbors);
 
         if (cell.alive) {
           if (neighbors < 2 || neighbors > 3) {
             //умирает
             newGird[i][j].alive = false;
+            this.hasChanges = true;
           } else {
             //отсается живой
             newGird[i][j].alive = true;
@@ -74,13 +79,15 @@ export class GameOfLife implements IGame {
           if (neighbors === 3) {
             //клетка оживает
             newGird[i][j].alive = true;
+            this.hasChanges = true;
           } else {
             newGird[i][j].alive = false;
           }
         }
       }
     }
-    this.gameBoard.updateGrid(newGird);
+    this.grid = newGird;
+    this.gameBoard.updateGrid(this.grid);
   }
 
   countAliveNeighbors(x: number, y: number) {
@@ -137,14 +144,25 @@ export class GameOfLife implements IGame {
     this.isGameRunning = true;
 
     this.gameIntervalId = setInterval(() => {
+      if (!this.areAnyCellAlive(this.grid)) {
+        this.stopGame();
+        console.log("Игра остановлена: все клетки мертвы.");
+        return;
+      }
+
       this.getNextGeneration();
+      if (!this.hasChanges) {
+        this.stopGame();
+        console.log("Игра остановлена: состояние не изменилось.");
+        return;
+      }
       if (this.renderer) {
         this.renderer.draw();
       }
     }, interval);
   }
 
-  stopGame() {
+  public stopGame() {
     if (!this.isGameRunning) {
       console.log("Игра не была запущена.");
       return;
@@ -156,4 +174,36 @@ export class GameOfLife implements IGame {
 
     this.isGameRunning = false;
   }
+
+  clearGameField(): void {
+    if (this.isGameRunning) {
+      this.stopGame();
+    }
+    this.gameBoard.setGameBoard(
+      this.gameBoard.getHeight(),
+      this.gameBoard.getWidth()
+    );
+    if (this.renderer) {
+      this.renderer.draw();
+    } else {
+      console.log("No renderer");
+      return;
+    }
+  }
+
+  areAnyCellAlive(grid: Cell[][]): boolean {
+    for (let x = 0; x < grid.length; x++) {
+      for (let y = 0; y < grid[x].length; y++) {
+        if (grid[x][y].alive) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
+  //   Игра прекращается, если
+  // на поле не останется ни одной «живой» клетки;
+  // конфигурация на очередном шаге в точности (без сдвигов и поворотов) повторит себя же на одном из более ранних шагов (складывается периодическая конфигурация)
+  // при очередном шаге ни одна из клеток не меняет своего состояния (частный случай предыдущего правила, складывается стабильная конфигурация)
 }

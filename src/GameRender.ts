@@ -47,6 +47,7 @@ export class GameRenderer implements IGameRenderer {
     const lableHeight = document.createElement("lable");
     const stopButton = document.createElement("button");
     const startButton = document.createElement("button");
+    const clearButton = document.createElement("button");
 
     container.appendChild(divMenu);
 
@@ -58,16 +59,19 @@ export class GameRenderer implements IGameRenderer {
     divMenu.appendChild(spanWidth);
     divMenu.appendChild(stopButton);
     divMenu.appendChild(startButton);
+    divMenu.appendChild(clearButton);
 
     divMenu.classList.add("div-menu");
     stopButton.classList.add("button-stop");
     startButton.classList.add("button-start");
+    clearButton.classList.add("button-clear");
     spanHeight.classList.add("span-value-height");
     spanWidth.classList.add("span-value-width");
 
     //кнопки старт и стоп
     stopButton.textContent = "Stop";
     startButton.textContent = "Start";
+    clearButton.textContent = "Clear";
 
     //присвоение класса и типа для инпут высота
 
@@ -117,6 +121,10 @@ export class GameRenderer implements IGameRenderer {
       this.gameOfLife.stopGame();
     });
 
+    clearButton.addEventListener("click", () => {
+      this.gameOfLife.clearGameField();
+    });
+
     this.canvas.addEventListener("click", this.onClick.bind(this));
   }
 
@@ -149,7 +157,6 @@ export class GameRenderer implements IGameRenderer {
     const y = Math.floor(event.offsetX / this.cellSize);
     const x = Math.floor(event.offsetY / this.cellSize);
 
-    console.log(`Click at canvas. Cell coords: ['x: '${x}, 'y: '${y}]`);
     this.gameOfLife.toggleCell(x, y);
     this.draw();
   };
