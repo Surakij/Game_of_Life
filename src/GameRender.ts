@@ -9,14 +9,23 @@ export interface IGameRenderer {
 
 export class GameRenderer implements IGameRenderer {
   private container: HTMLElement;
+
   private canvasContainer: HTMLElement;
+
   private canvas: HTMLCanvasElement;
+
   private context: CanvasRenderingContext2D;
+
   private cellSize = 10;
+
   private gameBoard: IGameBoard;
+
   private gameOfLife: IGame;
+
   private width: number;
+
   private height: number;
+
   private speed: number;
 
   constructor(
@@ -33,7 +42,7 @@ export class GameRenderer implements IGameRenderer {
     this.canvas.width = 0;
     this.canvas.height = 0;
     this.canvasContainer.appendChild(this.canvas);
-    this.context = this.canvas.getContext("2d")!;
+    this.context = this.canvas.getContext("2d") as CanvasRenderingContext2D;
     this.gameBoard = gameBoard;
     this.gameOfLife = gameOfLife;
     this.width = this.gameBoard.getWidth();
@@ -78,12 +87,12 @@ export class GameRenderer implements IGameRenderer {
     spanWidth.classList.add("span-value-width");
     spanWidth.classList.add("span-value-speed");
 
-    //кнопки старт и стоп
+    // кнопки старт и стоп
     stopButton.textContent = "Stop";
     startButton.textContent = "Start";
     clearButton.textContent = "Clear";
 
-    //присвоение класса и типа для инпут высота
+    // присвоение класса и типа для инпут высота
 
     inputWidth.type = "range";
     inputWidth.min = "10";
@@ -95,7 +104,7 @@ export class GameRenderer implements IGameRenderer {
     lableWidth.setAttribute("for", "width-input");
     lableWidth.textContent = "Width: ";
 
-    //присвоение класса и типа для инпут ширина
+    // присвоение класса и типа для инпут ширина
 
     inputHeight.type = "range";
     inputHeight.min = "10";

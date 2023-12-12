@@ -1,7 +1,7 @@
-import { GameOfLife, IGame } from "./GameOfLife";
+import "jest-canvas-mock";
+import { GameOfLife } from "./GameOfLife";
 import { GameRenderer } from "./GameRender";
-import { GameBoard, IGameBoard } from "./GameBoard";
-import { Cell } from "./Cell";
+import { GameBoard } from "./GameBoard";
 
 describe("GameOfLife", () => {
   let gameBoard: GameBoard;
@@ -9,22 +9,6 @@ describe("GameOfLife", () => {
   let renderer: GameRenderer;
 
   beforeEach(() => {
-    const getContextSpy = jest.spyOn(HTMLCanvasElement.prototype, "getContext");
-
-    // Mock the implementation of the getContext method
-    getContextSpy.mockImplementation(function (
-      this: HTMLCanvasElement,
-      contextId: string
-    ): RenderingContext | null {
-      if (contextId === "2d") {
-        return {
-          fillRect: jest.fn(),
-          clearRect: jest.fn(),
-        } as unknown as CanvasRenderingContext2D; // Convert the mock object to `CanvasRenderingContext2D`
-      }
-      return null;
-    });
-
     gameBoard = new GameBoard(10, 10);
     game = new GameOfLife(gameBoard, 100);
     renderer = new GameRenderer(document.createElement("div"), gameBoard, game);

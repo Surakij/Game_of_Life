@@ -3,7 +3,6 @@ import { GameBoard } from "./GameBoard";
 import { Cell } from "./Cell";
 
 export interface IGame {
-  // [x: string]: any;
   setCell(x: number, y: number, alive: boolean): void;
   isCellAlive(x: number, y: number): boolean;
   getNextGeneration(): void;
@@ -19,13 +18,21 @@ export interface IGame {
 
 export class GameOfLife implements IGame {
   private width: number;
+
   private height: number;
+
   public grid: Cell[][];
-  private isGameRunning: boolean = false;
+
+  private isGameRunning = false;
+
   private gameIntervalId: NodeJS.Timeout | null = null;
+
   private renderer: GameRenderer | null;
+
   private gameBoard: GameBoard;
-  private hasChanges: boolean = true;
+
+  private hasChanges = true;
+
   private interval: number;
 
   constructor(gameBoard: GameBoard, gameSpeed: number) {
@@ -77,28 +84,26 @@ export class GameOfLife implements IGame {
 
         if (cell.alive) {
           if (neighbors < 2 || neighbors > 3) {
-            //умирает
+            // умирает
             newGird[i][j].alive = false;
             this.hasChanges = true;
           } else {
-            //отсается живой
+            // отсается живой
             newGird[i][j].alive = true;
           }
+        } else if (neighbors === 3) {
+          // клетка оживает
+          newGird[i][j].alive = true;
+          this.hasChanges = true;
         } else {
-          if (neighbors === 3) {
-            //клетка оживает
-            newGird[i][j].alive = true;
-            this.hasChanges = true;
-          } else {
-            newGird[i][j].alive = false;
-          }
+          newGird[i][j].alive = false;
         }
       }
     }
     this.gameBoard.updateGrid(newGird);
   }
 
-  countAliveNeighbors(x: number, y: number) {
+  countAliveNeighbors(i: number, j: number) {
     let result = 0;
 
     const xMoveUp = (x: number): number => (x === 0 ? this.height - 1 : x - 1);
@@ -108,36 +113,36 @@ export class GameOfLife implements IGame {
     const yMoveRight = (y: number): number =>
       y === this.width - 1 ? 0 : y + 1;
 
-    //up
-    if (this.grid[xMoveUp(x)][y].alive) {
+    // up
+    if (this.grid[xMoveUp(i)][j].alive) {
       result++;
     }
-    //down
-    if (this.grid[xMoveDown(x)][y].alive) {
+    // down
+    if (this.grid[xMoveDown(i)][j].alive) {
       result++;
     }
-    //left
-    if (this.grid[x][yMoveLeft(y)].alive) {
+    // left
+    if (this.grid[i][yMoveLeft(j)].alive) {
       result++;
     }
-    //Right
-    if (this.grid[x][yMoveRight(y)].alive) {
+    // Right
+    if (this.grid[i][yMoveRight(j)].alive) {
       result++;
     }
-    //up-left
-    if (this.grid[xMoveUp(x)][yMoveLeft(y)].alive) {
+    // up-left
+    if (this.grid[xMoveUp(i)][yMoveLeft(j)].alive) {
       result++;
     }
-    //up-right
-    if (this.grid[xMoveUp(x)][yMoveRight(y)].alive) {
+    // up-right
+    if (this.grid[xMoveUp(i)][yMoveRight(j)].alive) {
       result++;
     }
-    //down-left
-    if (this.grid[xMoveDown(x)][yMoveLeft(y)].alive) {
+    // down-left
+    if (this.grid[xMoveDown(i)][yMoveLeft(j)].alive) {
       result++;
     }
-    //down-right
-    if (this.grid[xMoveDown(x)][yMoveRight(y)].alive) {
+    // down-right
+    if (this.grid[xMoveDown(i)][yMoveRight(j)].alive) {
       result++;
     }
     return result;
@@ -201,14 +206,14 @@ export class GameOfLife implements IGame {
       this.renderer.draw();
     } else {
       console.log("No renderer");
-      return;
     }
   }
 
-  areAnyCellAlive(grid: Cell[][]): boolean {
-    for (let x = 0; x < grid.length; x++) {
-      for (let y = 0; y < grid[x].length; y++) {
-        if (grid[x][y].alive) {
+  // eslint-disable-next-line class-methods-use-this
+  public areAnyCellAlive(grid: Cell[][]): boolean {
+    for (let i = 0; i < grid.length; i++) {
+      for (let j = 0; j < grid[i].length; j++) {
+        if (grid[i][j].alive) {
           return true;
         }
       }

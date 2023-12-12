@@ -1,7 +1,7 @@
-import { IGameBoard, GameBoard } from "./GameBoard";
-import { IGame, GameOfLife } from "./GameOfLife";
-import { IGameRenderer, GameRenderer } from "./GameRender";
-import { Cell } from "./Cell";
+import "jest-canvas-mock";
+import { GameBoard } from "./GameBoard";
+import { GameOfLife } from "./GameOfLife";
+import { GameRenderer } from "./GameRender";
 
 describe("GameRenderer", () => {
   let container: HTMLElement;
@@ -14,21 +14,6 @@ describe("GameRenderer", () => {
   let canvas: HTMLCanvasElement;
 
   beforeEach(() => {
-    const getContextSpy = jest.spyOn(HTMLCanvasElement.prototype, "getContext");
-
-    getContextSpy.mockImplementation(function (
-      this: HTMLCanvasElement,
-      contextId: string
-    ): RenderingContext | null {
-      if (contextId === "2d") {
-        return {
-          fillRect: jest.fn(),
-          clearRect: jest.fn(),
-        } as unknown as CanvasRenderingContext2D;
-      }
-      return null;
-    });
-
     container = document.createElement("div");
     document.body.appendChild(container);
 

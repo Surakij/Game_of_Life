@@ -10,7 +10,9 @@ export interface IGameBoard {
 
 export class GameBoard implements IGameBoard {
   private width: number;
+
   private height: number;
+
   private grid: Cell[][];
 
   constructor(height: number, width: number) {
