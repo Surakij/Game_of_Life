@@ -47,6 +47,7 @@ export class GameRenderer implements IGameRenderer {
     const inputSpeedGame = document.createElement("input");
     const spanHeight = document.createElement("span");
     const spanWidth = document.createElement("span");
+    const spanSpeed = document.createElement("span");
     const lableWidth = document.createElement("lable");
     const lableHeight = document.createElement("lable");
     const lableSpeed = document.createElement("lable");
@@ -54,17 +55,17 @@ export class GameRenderer implements IGameRenderer {
     const startButton = document.createElement("button");
     const clearButton = document.createElement("button");
 
-    container.appendChild(divMenu);
+    container.prepend(divMenu);
 
     divMenu.appendChild(lableHeight);
-    divMenu.appendChild(inputHeight);
     divMenu.appendChild(spanHeight);
+    divMenu.appendChild(inputHeight);
     divMenu.appendChild(lableWidth);
-    divMenu.appendChild(inputWidth);
     divMenu.appendChild(spanWidth);
+    divMenu.appendChild(inputWidth);
     divMenu.appendChild(lableSpeed);
+    divMenu.appendChild(spanSpeed);
     divMenu.appendChild(inputSpeedGame);
-
     divMenu.appendChild(stopButton);
     divMenu.appendChild(startButton);
     divMenu.appendChild(clearButton);
@@ -75,6 +76,7 @@ export class GameRenderer implements IGameRenderer {
     clearButton.classList.add("button-clear");
     spanHeight.classList.add("span-value-height");
     spanWidth.classList.add("span-value-width");
+    spanWidth.classList.add("span-value-speed");
 
     //кнопки старт и стоп
     stopButton.textContent = "Stop";
@@ -83,7 +85,6 @@ export class GameRenderer implements IGameRenderer {
 
     //присвоение класса и типа для инпут высота
 
-    inputWidth.classList.add("width-range");
     inputWidth.type = "range";
     inputWidth.min = "10";
     inputWidth.max = "100";
@@ -92,11 +93,10 @@ export class GameRenderer implements IGameRenderer {
     inputWidth.id = "width-input";
     spanWidth.textContent = inputWidth.value;
     lableWidth.setAttribute("for", "width-input");
-    lableWidth.textContent = "width: ";
+    lableWidth.textContent = "Width: ";
 
     //присвоение класса и типа для инпут ширина
 
-    inputHeight.classList.add("height-range");
     inputHeight.type = "range";
     inputHeight.min = "10";
     inputHeight.max = "100";
@@ -105,17 +105,17 @@ export class GameRenderer implements IGameRenderer {
     inputHeight.id = "height-input";
     spanHeight.textContent = inputHeight.value;
     lableHeight.setAttribute("for", "height-input");
-    lableHeight.textContent = "height: ";
+    lableHeight.textContent = "Height: ";
 
-    inputSpeedGame.classList.add("speed-range");
-    inputSpeedGame.type = "number";
-    inputSpeedGame.min = "0.1";
-    inputSpeedGame.max = "20";
-    inputSpeedGame.step = "0.1";
+    inputSpeedGame.type = "range";
+    inputSpeedGame.min = "0.01";
+    inputSpeedGame.max = "2";
+    inputSpeedGame.step = "0.01";
     inputSpeedGame.value = "1";
     inputSpeedGame.id = "speed-input";
+    spanSpeed.textContent = inputSpeedGame.value;
     lableSpeed.setAttribute("for", "speed-input");
-    lableSpeed.textContent = "game speed : ";
+    lableSpeed.textContent = "Game speed : ";
 
     inputHeight.addEventListener("input", () => {
       spanHeight.textContent = inputHeight.value;
@@ -132,7 +132,8 @@ export class GameRenderer implements IGameRenderer {
     });
 
     inputSpeedGame.addEventListener("input", () => {
-      this.speed = 1000 * (+inputSpeedGame.value);
+      spanSpeed.textContent = inputSpeedGame.value;
+      this.speed = +inputSpeedGame.value * 1000;
     });
 
     startButton.addEventListener("click", () => {
@@ -179,8 +180,12 @@ export class GameRenderer implements IGameRenderer {
     const y = Math.floor(event.offsetX / this.cellSize);
     const x = Math.floor(event.offsetY / this.cellSize);
 
-    this.gameOfLife.toggleCell(x, y);
-    this.draw();
+    if (x >= 0 && x < this.height && y >= 0 && y < this.width) {
+      this.gameOfLife.toggleCell(x, y);
+      this.draw();
+    } else {
+      console.error(`Coordinates (${x}, ${y}) are outside the grid.`);
+    }
   };
 
   public setGameBoard(gameBoard: IGameBoard): void {

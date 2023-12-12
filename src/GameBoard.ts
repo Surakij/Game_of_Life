@@ -6,6 +6,7 @@ export interface IGameBoard {
   getGrid(): Cell[][];
   updateGrid(grid: Cell[][]): void;
   setGameBoard(height: number, width: number): void;
+
 }
 
 export class GameBoard implements IGameBoard {

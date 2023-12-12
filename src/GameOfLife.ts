@@ -1,8 +1,9 @@
-import { GameRenderer } from "./GameRender";
+import { GameRenderer, IGameRenderer } from "./GameRender";
 import { GameBoard } from "./GameBoard";
 import { Cell } from "./Cell";
 
 export interface IGame {
+  // [x: string]: any;
   setCell(x: number, y: number, alive: boolean): void;
   isCellAlive(x: number, y: number): boolean;
   getNextGeneration(): void;
@@ -13,6 +14,7 @@ export interface IGame {
   clearGameField(): void;
   areAnyCellAlive(grid: Cell[][]): boolean;
   getSpeed(): number;
+  setRenderer(render: IGameRenderer): void
 }
 
 export class GameOfLife implements IGame {
@@ -35,11 +37,11 @@ export class GameOfLife implements IGame {
     this.grid = this.gameBoard.getGrid();
   }
 
-  getSpeed(): number {
+  public getSpeed(): number {
     return this.interval;
   }
 
-  setRenderer(render: GameRenderer): void {
+  public setRenderer(render: GameRenderer): void {
     this.renderer = render;
   }
 
@@ -93,8 +95,7 @@ export class GameOfLife implements IGame {
         }
       }
     }
-    this.grid = newGird;
-    this.gameBoard.updateGrid(this.grid);
+    this.gameBoard.updateGrid(newGird);
   }
 
   countAliveNeighbors(x: number, y: number) {
