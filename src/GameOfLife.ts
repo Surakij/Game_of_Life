@@ -14,7 +14,7 @@ export interface IGame {
   clearGameField(): void;
   areAnyCellAlive(grid: Cell[][]): boolean;
   getSpeed(): number;
-  setRenderer(render: IGameRenderer): void
+  setRenderer(render: IGameRenderer): void;
 }
 
 export class GameOfLife implements IGame {

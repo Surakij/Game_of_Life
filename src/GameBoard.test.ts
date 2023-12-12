@@ -49,10 +49,30 @@ describe("GameBoard", () => {
     gameBoard.setGameBoard(newHeight, newWidth);
 
     const expectedGrid: Cell[][] = [
-      [new Cell(0, 0, false), new Cell(0, 1, false), new Cell(0, 2, false), new Cell(0, 3, false)],
-      [new Cell(1, 0, false), new Cell(1, 1, false), new Cell(1, 2, false), new Cell(1, 3, false)],
-      [new Cell(2, 0, false), new Cell(2, 1, false), new Cell(2, 2, false), new Cell(2, 3, false)],
-      [new Cell(3, 0, false), new Cell(3, 1, false), new Cell(3, 2, false), new Cell(3, 3, false)],
+      [
+        new Cell(0, 0, false),
+        new Cell(0, 1, false),
+        new Cell(0, 2, false),
+        new Cell(0, 3, false),
+      ],
+      [
+        new Cell(1, 0, false),
+        new Cell(1, 1, false),
+        new Cell(1, 2, false),
+        new Cell(1, 3, false),
+      ],
+      [
+        new Cell(2, 0, false),
+        new Cell(2, 1, false),
+        new Cell(2, 2, false),
+        new Cell(2, 3, false),
+      ],
+      [
+        new Cell(3, 0, false),
+        new Cell(3, 1, false),
+        new Cell(3, 2, false),
+        new Cell(3, 3, false),
+      ],
     ];
 
     expect(gameBoard.getHeight()).toBe(newHeight);

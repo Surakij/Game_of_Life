@@ -91,5 +91,4 @@ describe("GameRenderer", () => {
     clearButton.dispatchEvent(new Event("click"));
     expect(clearSpy).toHaveBeenCalledTimes(1);
   });
-
 });
