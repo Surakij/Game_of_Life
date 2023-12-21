@@ -3,18 +3,12 @@ name: Add codesandbox link
 on:
   pull_request:
     types: [opened]
-  pull_request_target:
-    types: [opened]
 
 jobs:
   codesandbox-comment:
     name: Add codesandbox link comment
     runs-on: ubuntu-latest
     steps:
-      - name: Debug Info
-        run: |
-          echo "Starting Add codesandbox link job"
-          env
       - uses: mshick/add-pr-comment@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -22,6 +16,3 @@ jobs:
           message: |
             You can check this code at CodeSandbox with the link
             https://githubbox.com/${{ github.repository }}/tree/${{ github.head_ref }}
-      - name: Debug Info
-        run: |
-          echo "Add codesandbox link completed successfully"
