@@ -15,6 +15,9 @@ jobs:
       - name: Lint check
         run: |
           npm run lint
-      - name: Lint check
+      - name: Test check
         run: |
           npm run test
+      - name: Debug Info
+        run: |
+          echo "Lint and Test checks completed successfully"

@@ -3,7 +3,6 @@ name: Add codesandbox link
 on:
   pull_request:
     types: [opened]
-  # https://github.com/mshick/add-pr-comment/issues/25
   pull_request_target:
     types: [opened]
 
@@ -19,3 +18,6 @@ jobs:
           message: |
             You can check this code at CodeSandbox with the link
             https://githubbox.com/${{ github.repository }}/tree/${{ github.head_ref }}
+      - name: Debug Info
+        run: |
+          echo "Add codesandbox link completed successfully"
