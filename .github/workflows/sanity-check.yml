@@ -18,6 +18,7 @@ jobs:
       - name: Test check
         run: |
           npm run test
-      - name: Debug Info
+
+      - name: Debug Info Lint
         run: |
           echo "Lint and Test checks completed successfully"
