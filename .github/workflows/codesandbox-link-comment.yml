@@ -1,8 +1,10 @@
 name: Add codesandbox link
 
-# Trigger the workflow only when a pull request is opened
 on:
   pull_request:
+    types: [opened]
+  # https://github.com/mshick/add-pr-comment/issues/25
+  pull_request_target:
     types: [opened]
 
 jobs:
@@ -10,13 +12,6 @@ jobs:
     name: Add codesandbox link comment
     runs-on: ubuntu-latest
     steps:
-      # Print debug info
-      - name: Debug Info Codesandbox
-        run: |
-          echo "Starting Add codesandbox link job"
-          env
-
-      # Add CodeSandbox link as a comment on the pull request
       - uses: mshick/add-pr-comment@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -24,8 +19,3 @@ jobs:
           message: |
             You can check this code at CodeSandbox with the link
             https://githubbox.com/${{ github.repository }}/tree/${{ github.head_ref }}
-
-      # Print debug info
-      - name: Debug Info Codesandbox
-        run: |
-          echo "Add codesandbox link completed successfully"
