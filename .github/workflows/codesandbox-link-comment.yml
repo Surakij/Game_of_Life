@@ -2,10 +2,9 @@ name: Add codesandbox link
 
 on:
   pull_request:
-    types: [opened]
-  # https://github.com/mshick/add-pr-comment/issues/25
+    types: [opened, synchronize]
   pull_request_target:
-    types: [opened]
+    types: [opened, synchronize]
 
 jobs:
   codesandbox-comment:
