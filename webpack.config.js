@@ -50,6 +50,7 @@ module.exports = (env) => ({
     minimizer: [`...`, new CssMinimizerPlugin()],
   },
   devServer: {
+    disableHostCheck: true,
     compress: true,
     port: 9000,
     watchFiles: ["*.html"],
